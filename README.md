@@ -8,7 +8,7 @@ Occasionally kill and AWS instance inside an AWS autoscale group. The probabilit
 
 ### enable killing
 
-..* default is off (ie dry run):
+* default is off (ie dry run):
 
 ```random-instance-killer --kill-enabled```
 
