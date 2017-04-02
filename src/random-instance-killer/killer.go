@@ -20,7 +20,7 @@ func collateASGs (region *aws.Config, sess *session.Session) []*autoscaling.Grou
     svc := autoscaling.New(sess, region)
     params := &autoscaling.DescribeAutoScalingGroupsInput{
         AutoScalingGroupNames: []*string{
-            aws.String("shawn-tester-asg"),
+            //aws.String("asg-name-here"),
         },
         MaxRecords: aws.Int64(100),
     }
