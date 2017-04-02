@@ -41,7 +41,7 @@ func main() {
         os.Exit(4)
     }
 
-    fmt.Printf("kill enabled: %t, kill probability: %2f\n", *killEnabled, killProbability)
+    fmt.Printf("kill enabled: %t, kill probability: %.2f%%\n", *killEnabled, killProbability*100)
     //fmt.Println("killProbability:", killProbability)
 
     initKiller()
