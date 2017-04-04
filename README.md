@@ -24,4 +24,10 @@ Set probability of a kill per autoscale group. Some different ways of representi
 
 ```random-instance-killer --probability=1/2```
 
+### protect-tag
+
+Any ASG tagged with a protect-tag will not have an instance deleted.
+
+```random-instance-killer --probability=50% --protect-tag=dont-kill --protect-tag=production```
+
 

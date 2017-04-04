@@ -53,7 +53,6 @@ func main() {
     }
 
     fmt.Printf("kill enabled: %t, kill probability: %.2f%%, protecting tags: %v\n", *killEnabled, killProbability*100, reflect.ValueOf(protectingTags).MapKeys())
-    //fmt.Println("killProbability:", killProbability)
 
     initKiller()
 
