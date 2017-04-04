@@ -4,17 +4,28 @@ import (
     "fmt"
     "flag"
     "os"
+    "reflect"
 
     "github.com/aws/aws-sdk-go/aws"
     "github.com/aws/aws-sdk-go/aws/session"
 )
 
 func main() {
-    protectingTags := map[string]bool {"dont-kill": true, "production": true}
+    var protectingTagsArray stringArrayFlags
     killEnabled := flag.Bool("kill-enabled", false, "kill for real - default is dry run")
     probabilityString := flag.String("probability", "", "probability of a kill per ASG")
+    flag.Var(&protectingTagsArray, "protect-tag", "ASG tags")
+
+    protectingTags := make(map[string]bool)
 
     flag.Parse()
+
+    for _, tag := range protectingTagsArray {
+        protectingTags[tag] = true
+    }
+
+    fmt.Println(protectingTagsArray)
+    fmt.Println(protectingTags)
 
     sess, err := session.NewSession()
     if err != nil {
@@ -41,7 +52,7 @@ func main() {
         os.Exit(4)
     }
 
-    fmt.Printf("kill enabled: %t, kill probability: %.2f%%\n", *killEnabled, killProbability*100)
+    fmt.Printf("kill enabled: %t, kill probability: %.2f%%, protecting tags: %v\n", *killEnabled, killProbability*100, reflect.ValueOf(protectingTags).MapKeys())
     //fmt.Println("killProbability:", killProbability)
 
     initKiller()
@@ -49,4 +60,15 @@ func main() {
     asgs := collateASGs(&region, sess)
     instances := identifyInstancesToKill(asgs, killProbability, &protectingTags)
     killInstances(&region, sess, instances, *killEnabled)
+}
+
+type stringArrayFlags []string
+
+func (i *stringArrayFlags) String() string {
+    return "my string representation"
+}
+
+func (i *stringArrayFlags) Set(value string) error {
+    *i = append(*i, value)
+    return nil
 }
